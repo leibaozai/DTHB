@@ -32,7 +32,7 @@
     _waterfallLayout.columnCount = 3;
     
     // 设置头高
-    _waterfallLayout.headerHeight = 200;
+    //_waterfallLayout.headerHeight = 200;
     
     //设置item间距
     _waterfallLayout.minimumColumnSpacing = 5.0f;
@@ -42,7 +42,6 @@
     _collectionView = [[UICollectionView alloc] initWithFrame:[[UIScreen mainScreen] bounds] collectionViewLayout:_waterfallLayout];
     //_collectionView.dataSource = self;
     //_collectionView.delegate = self;
-    
     _collectionView.backgroundColor = [UIColor clearColor];
     
     [self addSubview:_collectionView];

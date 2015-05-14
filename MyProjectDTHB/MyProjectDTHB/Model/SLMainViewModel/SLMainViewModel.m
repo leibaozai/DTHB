@@ -8,13 +8,15 @@
 
 #import "SLMainViewModel.h"
 #import "SLItemModel.h"
+#import "SLPhotoModel.h"
 @implementation SLMainViewModel
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        _item = [NSMutableArray array];
+        _photoModel = [[SLPhotoModel alloc] init];
+        _itemModel = [[SLItemModel alloc] init];
     }
     return self;
 }
@@ -23,11 +25,21 @@
 {
     // 对应关键字作kvc处理
     if ([key isEqualToString:@"item"]){
-        for (NSDictionary *valueDic in value) {
-            SLItemModel *itemModel = [[SLItemModel alloc]init];
-            [itemModel setValuesForKeysWithDictionary:valueDic];
-            [_item addObject:itemModel];
-        }
+        SLItemModel *itemModel = [[SLItemModel alloc]init];
+        [itemModel setValuesForKeysWithDictionary:value];
+        _itemModel = value;
+//        for (NSDictionary *valueDic in value) {
+//            SLItemModel *itemModel = [[SLItemModel alloc]init];
+//            [itemModel setValuesForKeysWithDictionary:valueDic];
+//            [_item addObject:itemModel];
+//        }
+    }
+    if ([key isEqualToString:@"photo"]) {
+    
+        SLPhotoModel *photModel = [[SLPhotoModel alloc]init];
+        [photModel setValuesForKeysWithDictionary:value];
+        _photoModel = value;
+        
     }
     else
     {

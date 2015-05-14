@@ -12,7 +12,6 @@
 #import "AFNetworking.h"
 // 请求地址文件
 
-
 typedef void (^getRequestSuccessBlock) (id responseObject);
 typedef void (^getRequestFailBlock) (id responseObject);
 

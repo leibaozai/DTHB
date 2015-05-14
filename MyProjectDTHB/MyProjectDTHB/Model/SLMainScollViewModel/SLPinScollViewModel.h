@@ -24,7 +24,7 @@
 @property(nonatomic, copy) NSString *sender_id;   //2281710,
 
 #warning //更改属性关键字
-@property(nonatomic, copy) NSString *idType;   //322246839,
+//@property(nonatomic, copy) NSString *idType;   //322246839,
 
 @property(nonatomic, copy) NSString *msg;   //福建丨漳平永福号称“大陆阿里山”,今年是这里举办的第四届樱花节,此时樱花初开,红色的樱花配上周围绿色的树,分外好看。漳平市有百万株樱花竞相开放,中国红、多重樱、吉野樱、云南樱等等,这里是樱花的聚会,在寒冬中给观赏者带来了一抹春意。,
 @property(nonatomic, copy) NSString *add_datetime_ts;   //1426048423,

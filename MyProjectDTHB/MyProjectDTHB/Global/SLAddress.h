@@ -23,13 +23,14 @@
 //滚动图片请求()
 #define kMainScollView_Url  @"http://www.duitang.com/napi/ad/banner/?count=7&adid=IAR001&types=album%2Curl"
 
-//点击滚动图片请求（传值start页数）
-#define kPinScollView_Url @"http://www.duitang.com/napi/blog/list/by_album/?__dtac=%257B%2522_r%2522%253A%2520%2522830189%2522%257D&album_id=68204989&user_id=0&limit=24&start=%@"
+//点击滚动图片请求（传值start页数）album_id--》kMainScollView_Url--》取出target--->/album/66856714/ 剪取66856714
+#define kPinScollView_Url @"http://www.duitang.com/napi/blog/list/by_album/?__dtac=%257B%2522_r%2522%253A%2520%2522830189%2522%257D&album_id=%@&user_id=0&limit=24&start=%@"
+
+//再点进去 album_id == kMainScollView_Url里面的-target(测试值：64836320)
+#define kClickScroUrl @"http://www.duitang.com/napi/blog/list/by_album/?__dtac=449819&album_id=%@&user_id=0&limit=24&start=%d"
+
 //主界面瀑布流请求（传值start页数）
 #define kMainView_Url @"http://www.duitang.com/napi/index/hot/?platform_name=iPhone&platform_version=8.1&device_name=iPhone5&app_version=1.8&limit=24&locale=zh-Hans_HK&__dtac=394342&include_fields=&start=%d&app_code=arwen"
-
-//album_id == kMainScollView_Url里面的-target(测试值：64836320)
-#define kClickScroUrl @"http://www.duitang.com/napi/blog/list/by_album/?__dtac=449819&album_id=%@&user_id=0&limit=24&start=%d"
 
 //分类页cell页面请求
 #define kFLCellView_Url @"http://www.duitang.com/napi/categories/?platform_version=8.1&app_version=1.8%20rv%3A1808&__dtac=%257B%2522_r%2522%253A%2520%2522749201%2522%257D&locale=zh-Hans_HK&platform_name=iPhone%20OS&device_name=iPhone%205&app_code=arwen"

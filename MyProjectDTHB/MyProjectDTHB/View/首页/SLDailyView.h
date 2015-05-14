@@ -8,6 +8,8 @@
 
 #import "SLParentsView.h"
 #import "CHTCollectionViewWaterfallLayout.h"
+
+
 @interface SLDailyView : SLParentsView
 
 @property (nonatomic, strong) UICollectionView  *collectionView;
