@@ -10,6 +10,8 @@
 #import "SLAddress.h"
 #import "AFRequestTools.h"
 #import "SLUIFactory.h"
+#import "MJRefresh.h"
+#import "UIImageView+WebCache.h"
 /**
  父类-Controller
  */

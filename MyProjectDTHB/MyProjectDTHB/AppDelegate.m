@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "SLAppSupport.h"
-
+#import "UMSocial.h"
 @interface AppDelegate ()
 
 @end
@@ -22,6 +22,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     [[SLAppSupport instance] load];
+    
+    [UMSocialData setAppKey:@"5556b43767e58e2817002507"];
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

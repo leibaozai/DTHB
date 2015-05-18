@@ -8,11 +8,18 @@
 
 #import "SLDailyHeaderController.h"
 #import "SLDailyView.h"
-#import "SLMainScollViewModel.h"
-
-@interface SLDailyHeaderController ()<UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout>
+//#import "SLMainScollViewModel.h"
+#import "SLMainViewModel.h"
+@interface SLDailyHeaderController ()<UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout,MJRefreshBaseViewDelegate>
 {
     NSMutableArray *_dataSource;
+    // 瀑布流
+    SLDailyView *dailyView;
+    
+    //刷新
+    MJRefreshHeaderView *refreshHeaderView;
+    MJRefreshFooterView *refreshFooterView;
+    NSInteger page;
 }
 @end
 
@@ -22,20 +29,28 @@
 -(instancetype)init
 {
     if (self = [super init]) {
-        
+        page = 1;
         _dataSource = [NSMutableArray array];
-        
-        [self creatUI];
-        [self getRequestDataFromNetWork];
+    
     }
     return self;
 }
 
+-(void)dealloc
+{
+    //移除观察者
+    [refreshHeaderView free];
+    [refreshFooterView free];
+}
 #pragma mark - ================= 各界面触发方法
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     self.navigationItem.leftBarButtonItem = [SLUIFactory createImageBBIWithImage:[UIImage imageNamed:@"navigationbar_back_icon"] target:self action:@selector(blackViewController)];
+    
+    [self creatUI];
+    [self getRequestDataFromNetWork];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -50,7 +65,7 @@
 -(void)creatUI
 {
     //1.用代码去做V层
-    SLDailyView *dailyView = [[SLDailyView alloc] initWithFrame:self.view.bounds];
+    dailyView = [[SLDailyView alloc] initWithFrame:self.view.bounds];
     
     dailyView.collectionView.delegate = self;
     dailyView.collectionView.dataSource = self;
@@ -59,6 +74,11 @@
     
     // 注册复用的Cell
     [dailyView.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
+    
+    refreshHeaderView = [[MJRefreshHeaderView alloc] initWithScrollView:dailyView.collectionView];
+    refreshHeaderView.delegate = self;
+    refreshFooterView = [[MJRefreshFooterView alloc] initWithScrollView:dailyView.collectionView];
+    refreshFooterView.delegate = self;
 }
 
 #pragma mark - ================= 各点击事件的判断触发
@@ -74,41 +94,77 @@
 
 - (void)getRequestDataFromNetWork
 {
-    //kMainScollView_Url
-    //[NSString stringWithFormat:kPinScollView_Url,_title,@"1"]
-    [AFRequestTools afGetRequestWithURL:kMainScollView_Url withParameters:nil withSuccessBlock:^(id responseObject) {
-        //NSLog(@"%@",responseObject[@"status"]);
+    NSString *testStr = _album_id;
+    if ([testStr integerValue]) {
+        NSString *urlStr = [NSString stringWithFormat:kPinScollView_Url,_album_id,page];
         
-        if ([[responseObject[@"status"] stringValue] isEqualToString:@"1"]) {
-            // SuccessBlock
-            for (NSDictionary *dict in responseObject[@"data"]) {
-                SLMainScollViewModel *mainScrollViewModel = [[SLMainScollViewModel alloc]init];
-                [mainScrollViewModel setValuesForKeysWithDictionary:dict];
-                [_dataSource addObject:mainScrollViewModel];
+        [AFRequestTools afGetRequestWithURL:urlStr withParameters:nil withSuccessBlock:^(id responseObject) {
+            //NSLog(@"%@",responseObject[@"status"]);
+            
+            if ([[responseObject[@"status"] stringValue] isEqualToString:@"1"]) {
+                
+                for (NSDictionary *dict in [responseObject[@"data"] valueForKey:@"object_list"]) {
+                    SLMainViewModel *mainViewModel = [[SLMainViewModel alloc]init];
+                    [mainViewModel setValuesForKeysWithDictionary:dict];
+                    [_dataSource addObject:mainViewModel];
+                }
+                [dailyView.collectionView reloadData];
+                
+                //判断是否正在刷新
+                if ([refreshHeaderView isRefreshing])
+                {
+                    //停止刷新
+                    [refreshHeaderView endRefreshing];
+                    //NSLog(@"停止刷新");
+                }
+                if ([refreshFooterView isRefreshing])
+                {
+                    [refreshFooterView endRefreshing];
+                    //NSLog(@"停止加载更多");
+                }
             }
-            //            [_headerV reloadHeadScrollViewWithDataArray:mainScrollViewModels];
-        }
-    } andFailBlock:^(id responseObject) {
-        // FailBlock
-        ;
-    }];
+        } andFailBlock:^(id responseObject) {
+            // FailBlock
+            ;
+        }];
+    }
 }
 
 
 #pragma mark - ================= 各协议事件的判断触发
+#pragma mark -MJRefreshBaseViewDelegate
+- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+{
+    //刷新
+    if (refreshView == refreshHeaderView)
+    {
+        //NSLog(@"开始刷新");
+        //《1》删除原来数据
+        if (_dataSource.count > 0)
+        {
+            [_dataSource removeAllObjects];
+        }
+        //《2》page=1
+        page = 1;
+        //《3》重新请求服务器数据
+        [self getRequestDataFromNetWork];
+    }
+    else //加载更多
+    {
+        NSLog(@"加载更多");
+        //《1》page++；
+        page++;
+        //《2》请求服务器数据
+        [self getRequestDataFromNetWork];
+    }
+}
 
 #pragma mark - UICollectionViewDataSource
-
-// 分组数
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
 
 // 在某个分组下的Item数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 30;
+    return _dataSource.count;
 }
 
 // 定制对应的Cell
@@ -116,7 +172,28 @@
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
-    cell.backgroundColor = [UIColor colorWithRed:arc4random()%256 / 255.0f green:arc4random()%256 / 255.0f blue:arc4random()%256 / 255.0f alpha:1];
+    UIImageView *imageView = [[UIImageView alloc] init];
+    
+    imageView.frame = CGRectMake(0, 0, CGRectGetWidth(cell.frame), CGRectGetHeight(cell.frame));
+    
+    if ([_dataSource count]) {
+        SLMainViewModel *model = _dataSource[indexPath.row];
+        
+        NSString *str = [model.photoModel valueForKey:@"path"];
+        
+        NSString *urlStr = [[NSString alloc] init];
+        if ([str hasSuffix:@"_webp"]) {
+            urlStr = [str componentsSeparatedByString:@"_webp"][0];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:urlStr]];
+        }else
+        {
+            [imageView sd_setImageWithURL:[NSURL URLWithString:[model.photoModel valueForKey:@"path"]]];
+        }
+        
+        cell.backgroundView = imageView;
+    }
+    
+    cell.backgroundColor = [UIColor whiteColor];
     
     return cell;
 }
@@ -126,7 +203,20 @@
 //item 的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(100, arc4random() % 200 + 50);
+    if ([_dataSource count]) {
+        SLMainViewModel *model = _dataSource[indexPath.row];
+        
+        //NSString *str = [model.photoModel valueForKey:@"path"];
+        
+        NSInteger height = [[model.photoModel valueForKey:@"height"] integerValue];
+       NSInteger width = [[model.photoModel valueForKey:@"width"] integerValue];
+        
+        return CGSizeMake(width/100.0f, height/100.0f);
+    }else
+    {
+        return CGSizeMake(100, arc4random() % 200 + 100);
+    }
+    
 }
 
 // 点击Item

@@ -19,10 +19,10 @@
 -(instancetype)init
 {
     if (self = [super init]) {
-        _album = [NSMutableArray array];
-        _photo = [NSMutableArray array];
-        _item = [NSMutableArray array];
-        _sender = [NSMutableArray array];
+        _album = [[SLAlbumModel alloc] init];
+        _photo = [[SLPhotoModel alloc] init];
+        _item = [[SLItemModel alloc] init];
+        _sender = [[SLSenderModel alloc] init];
     }
     return self;
 }
@@ -35,28 +35,28 @@
         for (NSDictionary *valueDic in value) {
             SLAlbumModel *albumModel = [[SLAlbumModel alloc]init];
             [albumModel setValuesForKeysWithDictionary:valueDic];
-            [_album addObject:albumModel];
+            _album = value;
         }
     }
     else if ([key isEqualToString:@"photo"]){
         for (NSDictionary *valueDic in value) {
             SLPhotoModel *photModel = [[SLPhotoModel alloc]init];
             [photModel setValuesForKeysWithDictionary:valueDic];
-            [_photo addObject:photModel];
+            _photo = value;
         }
     }
     else if ([key isEqualToString:@"item"]){
         for (NSDictionary *valueDic in value) {
             SLItemModel *itemModel = [[SLItemModel alloc]init];
             [itemModel setValuesForKeysWithDictionary:valueDic];
-            [_item addObject:itemModel];
+            _item = value;
         }
     }
     else if ([key isEqualToString:@"sender"]){
         for (NSDictionary *valueDic in value) {
             SLSenderModel *senderModel = [[SLSenderModel alloc]init];
             [senderModel setValuesForKeysWithDictionary:valueDic];
-            [_sender addObject:senderModel];
+            _sender = value;
         }
     }
     {

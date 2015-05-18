@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="SLMoreView">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="odO-0n-OUC">
+                    <rect key="frame" x="20" y="10" width="560" height="120"/>
+                    <subviews>
+                        <button opaque="NO" alpha="0.39999999999999963" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aoz-Ne-MyU">
+                            <rect key="frame" x="0.0" y="40" width="560" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="Voc-ex-wp8"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="新浪微博登录">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" alpha="0.40000000596046448" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYh-lO-GIp">
+                            <rect key="frame" x="0.0" y="80" width="560" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="KC4-Zb-2yh"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="QQ账号登录">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" tag="40" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q8H-1L-d8b">
+                            <rect key="frame" x="0.0" y="0.0" width="560" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="Pc5-bP-2Ln"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="登录/注册">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="loginOrRegist:" destination="iN0-l3-epB" eventType="touchUpInside" id="v5D-cY-0fn"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="vYh-lO-GIp" firstAttribute="top" secondItem="aoz-Ne-MyU" secondAttribute="bottom" id="4vx-Ie-xEn"/>
+                        <constraint firstAttribute="height" constant="120" id="C9L-3C-V5o"/>
+                        <constraint firstItem="vYh-lO-GIp" firstAttribute="leading" secondItem="odO-0n-OUC" secondAttribute="leading" id="DGN-3n-0hh"/>
+                        <constraint firstItem="aoz-Ne-MyU" firstAttribute="leading" secondItem="odO-0n-OUC" secondAttribute="leading" id="aEU-yv-Y5g"/>
+                        <constraint firstAttribute="trailing" secondItem="Q8H-1L-d8b" secondAttribute="trailing" id="aji-us-sh4"/>
+                        <constraint firstAttribute="trailing" secondItem="vYh-lO-GIp" secondAttribute="trailing" id="dNp-q8-ii8"/>
+                        <constraint firstItem="Q8H-1L-d8b" firstAttribute="top" secondItem="odO-0n-OUC" secondAttribute="top" id="hj9-ln-3f4"/>
+                        <constraint firstAttribute="trailing" secondItem="aoz-Ne-MyU" secondAttribute="trailing" id="rN1-yU-5z0"/>
+                        <constraint firstItem="Q8H-1L-d8b" firstAttribute="leading" secondItem="odO-0n-OUC" secondAttribute="leading" id="tLt-nt-Rdm"/>
+                        <constraint firstItem="aoz-Ne-MyU" firstAttribute="top" secondItem="Q8H-1L-d8b" secondAttribute="bottom" id="zUQ-Pc-GAS"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8FI-T2-JRd">
+                    <rect key="frame" x="20" y="140" width="560" height="80"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZ1-2E-8hJ">
+                            <rect key="frame" x="0.0" y="0.0" width="560" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="abd-h6-dSm"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="清除图片缓存">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" alpha="0.40000000596046448" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4t1-nF-BO9">
+                            <rect key="frame" x="0.0" y="40" width="560" height="40"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="use-f9-gq1">
+                            <rect key="frame" x="0.0" y="40" width="560" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="yPu-lh-XO8"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="设置图片保存目录">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="aZ1-2E-8hJ" firstAttribute="leading" secondItem="8FI-T2-JRd" secondAttribute="leading" id="8IW-TE-cNG"/>
+                        <constraint firstItem="aZ1-2E-8hJ" firstAttribute="top" secondItem="8FI-T2-JRd" secondAttribute="top" id="Iek-r4-VWg"/>
+                        <constraint firstAttribute="height" constant="80" id="NDx-Sc-u59"/>
+                        <constraint firstItem="use-f9-gq1" firstAttribute="leading" secondItem="8FI-T2-JRd" secondAttribute="leading" id="Spr-p0-wsH"/>
+                        <constraint firstItem="use-f9-gq1" firstAttribute="top" secondItem="aZ1-2E-8hJ" secondAttribute="bottom" id="Uon-fs-UO7"/>
+                        <constraint firstAttribute="trailing" secondItem="use-f9-gq1" secondAttribute="trailing" id="Y72-Gf-dBa"/>
+                        <constraint firstAttribute="trailing" secondItem="aZ1-2E-8hJ" secondAttribute="trailing" id="rxp-9u-Puy"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="56d-qK-0dm">
+                    <rect key="frame" x="20" y="228" width="560" height="160"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4OM-IN-ZpJ">
+                            <rect key="frame" x="0.0" y="0.0" width="560" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="TRB-f5-EbI"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="关于">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aOh-qX-DKu">
+                            <rect key="frame" x="0.0" y="40" width="560" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="3mX-Sp-1Gx"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="应用推荐">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FLW-ks-V0d">
+                            <rect key="frame" x="0.0" y="80" width="560" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="xso-g5-vyG"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="意见反馈">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vHs-pq-nnR">
+                            <rect key="frame" x="0.0" y="120" width="560" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="EBj-Nr-f9w"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="为堆糖画报评分">
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="FLW-ks-V0d" firstAttribute="leading" secondItem="56d-qK-0dm" secondAttribute="leading" id="08u-wa-ED0"/>
+                        <constraint firstItem="vHs-pq-nnR" firstAttribute="top" secondItem="FLW-ks-V0d" secondAttribute="bottom" id="6bQ-rt-ZnS"/>
+                        <constraint firstItem="vHs-pq-nnR" firstAttribute="leading" secondItem="56d-qK-0dm" secondAttribute="leading" id="89u-Ct-Vdj"/>
+                        <constraint firstAttribute="trailing" secondItem="FLW-ks-V0d" secondAttribute="trailing" id="8Q8-s2-fy0"/>
+                        <constraint firstAttribute="trailing" secondItem="aOh-qX-DKu" secondAttribute="trailing" id="Duh-cw-63F"/>
+                        <constraint firstAttribute="height" constant="160" id="JjE-7S-4ab"/>
+                        <constraint firstAttribute="trailing" secondItem="vHs-pq-nnR" secondAttribute="trailing" id="T9r-jS-aIt"/>
+                        <constraint firstItem="4OM-IN-ZpJ" firstAttribute="leading" secondItem="56d-qK-0dm" secondAttribute="leading" id="Zgq-Cb-l7G"/>
+                        <constraint firstItem="4OM-IN-ZpJ" firstAttribute="top" secondItem="56d-qK-0dm" secondAttribute="top" id="dJU-4R-fjh"/>
+                        <constraint firstItem="FLW-ks-V0d" firstAttribute="top" secondItem="aOh-qX-DKu" secondAttribute="bottom" id="fEx-W4-kOa"/>
+                        <constraint firstItem="aOh-qX-DKu" firstAttribute="leading" secondItem="56d-qK-0dm" secondAttribute="leading" id="oXS-Pg-bD2"/>
+                        <constraint firstItem="aOh-qX-DKu" firstAttribute="top" secondItem="4OM-IN-ZpJ" secondAttribute="bottom" id="ytf-7t-J0F"/>
+                        <constraint firstAttribute="trailing" secondItem="4OM-IN-ZpJ" secondAttribute="trailing" id="zin-mP-r2o"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstItem="odO-0n-OUC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="68w-xX-Cuv"/>
+                <constraint firstItem="8FI-T2-JRd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="Ac8-mB-rJp"/>
+                <constraint firstAttribute="trailing" secondItem="56d-qK-0dm" secondAttribute="trailing" constant="20" id="DQx-IT-btF"/>
+                <constraint firstItem="odO-0n-OUC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="J1b-Gr-k7w"/>
+                <constraint firstItem="56d-qK-0dm" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="Mk7-M3-q17"/>
+                <constraint firstAttribute="trailing" secondItem="odO-0n-OUC" secondAttribute="trailing" constant="20" id="Wg8-q0-Vo6"/>
+                <constraint firstItem="56d-qK-0dm" firstAttribute="top" secondItem="8FI-T2-JRd" secondAttribute="bottom" constant="8" id="XXL-Vn-W8a"/>
+                <constraint firstAttribute="trailing" secondItem="8FI-T2-JRd" secondAttribute="trailing" constant="20" id="a2f-cH-2of"/>
+                <constraint firstItem="8FI-T2-JRd" firstAttribute="top" secondItem="odO-0n-OUC" secondAttribute="bottom" constant="10" id="d5o-JM-Sxx"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

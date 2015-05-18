@@ -16,8 +16,9 @@
     self = [super init];
     if (self) {
         //照片
-        _mall_category = [NSMutableArray array];
+        _mall_category = [NSDictionary dictionary];
         _sub_cates = [NSArray array];
+        
     }
     return self;
 }
@@ -38,9 +39,9 @@
     // 对应关键字作kvc处理
     if ([key isEqualToString:@"mall_category"]) {
         for (NSDictionary *valueDic in value) {
-            SLFLCellMallCategoryModel *mallCategoryModel = [[SLFLCellMallCategoryModel alloc]init];
-            [mallCategoryModel setValuesForKeysWithDictionary:valueDic];
-            [_mall_category addObject:mallCategoryModel];
+//            SLFLCellMallCategoryModel *mallCategoryModel = [[SLFLCellMallCategoryModel alloc]init];
+//            [mallCategoryModel setValuesForKeysWithDictionary:valueDic];
+            _mall_category = value;
         }
     }
     else

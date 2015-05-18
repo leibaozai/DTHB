@@ -15,6 +15,22 @@
 @interface SLUIFactory : NSObject
 
 /**
+ 提示框
+ */
++ (void)showAlertViewWithMessage:(NSString *)message;
+
+/*
+ 显示网络加载提示
+ */
++ (void)showMBProgessHUD:(UIView *)superView amimated:(BOOL)amimated;
+/*
+ 隐藏网络加载提示
+ */
++ (void)hideMBProgessHUD:(UIView *)superView amimated:(BOOL)amimated;
+
+
+
+/**
  创建调整位置的BBI
  */
 + (UIBarButtonItem *)createSpaceBBIWithWidth:(CGFloat)width;

@@ -10,7 +10,8 @@
 #import "SLDailyViewController.h"
 #import "SLCategoryViewController.h"
 #import "SLFavoriteViewController.h"
-#import "SLMoreViewController.h"
+#import "SLSettingViewController.h"
+//#import "SLMoreViewController.h"
 #import "SLNavigationController.h"
 #import "SLTabBarItemButton.h"
 #import "SLTabBarViewController.h"
@@ -58,14 +59,14 @@
     SLDailyViewController *dailyVC = [[SLDailyViewController alloc] init];
     SLCategoryViewController *categoryVC = [[SLCategoryViewController alloc] init];
     SLFavoriteViewController *favoriteVC = [[SLFavoriteViewController alloc] init];
-    SLMoreViewController *moreVC = [[SLMoreViewController alloc] init];
-    
+    //SLMoreViewController *moreVC = [[SLMoreViewController alloc] init];
+    SLSettingViewController *settingVC = [[SLSettingViewController alloc] init];
 //    SLDailyViewController *dailyVC = [[SLDailyViewController alloc] initWithNibName:@"SLDailyViewController" bundle:nil];
 //    SLCategoryViewController *categoryVC = [[SLCategoryViewController alloc] initWithNibName:@"SLCategoryViewController" bundle:nil];
 //    SLFavoriteViewController *favoriteVC = [[SLFavoriteViewController alloc] initWithNibName:@"SLFavoriteViewController" bundle:nil];
 //    SLMoreViewController *moreVC = [[SLMoreViewController alloc] initWithNibName:@"SLMoreViewController" bundle:nil];
     
-    NSArray *vcs = @[dailyVC,categoryVC,favoriteVC,moreVC];
+    NSArray *vcs = @[dailyVC,categoryVC,favoriteVC,settingVC];
     
     //图片
     NSArray *imageNames = @[@"daohang_sell01",@"daohang_buy01",@"daohang_wo01",@"daohang_gengduo01"];

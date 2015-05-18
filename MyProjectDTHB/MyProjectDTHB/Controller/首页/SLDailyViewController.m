@@ -11,13 +11,12 @@
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "SLCHTHeaderView.h"
 #import "SLMainScollViewModel.h"
-#import "UIImageView+WebCache.h"
 
 #import "SLDailyHeaderController.h"
 #import "SLMainViewModel.h"
 #import "SLPhotoModel.h"
 
-#import "UIImage+WebP.h"
+#import "SLDetailViewController.h"
 
 #define kCollectionHearderReuseID @"Header"
 
@@ -28,7 +27,7 @@ typedef enum {
 }RequestType;
 
 
-@interface SLDailyViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout>
+@interface SLDailyViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout,MJRefreshBaseViewDelegate>
 {
     //滚动视图的数据源
     NSMutableArray *mainScrollViewModels;
@@ -36,9 +35,13 @@ typedef enum {
     NSMutableArray *mainViewModels;
     // 头部滚动视图
     SLCHTHeaderView *_headerV;
-    
     // 瀑布流
     SLDailyView *dailyView;
+    //刷新
+    MJRefreshHeaderView *refreshHeaderView;
+    MJRefreshFooterView *refreshFooterView;
+    
+    NSInteger page;
 }
 @end
 
@@ -51,52 +54,39 @@ typedef enum {
 {
     self = [super init];
     if (self) {
-        
+        page = 1;
         mainScrollViewModels = [NSMutableArray array];
         mainViewModels = [NSMutableArray array];
-        
-//        [self creatData];
-//        [self creatUI];
-//        [self getRequestType:KMainScollViewRequestType];
-//        [self getRequestType:kMainViewRequestType];
     }
     return self;
 }
 
-- (void)creatData
+-(void)dealloc
 {
-    
+    //移除观察者
+    [refreshHeaderView free];
+    [refreshFooterView free];
 }
-
-
 #pragma mark - ================= 各界面触发方法
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     self.navigationItem.title = @"堆糖画报";
     
-    [self creatData];
     [self creatUI];
     [self getRequestType:KMainScollViewRequestType];
     [self getRequestType:kMainViewRequestType];
-
 }
-
 
 #pragma mark - ================= 各UI界面控件创建方法
 - (void)creatUI
 {
     //1.用代码去做V层
-    dailyView = [[SLDailyView alloc] initWithFrame:self.view.bounds];
-    
-//    dailyView.senderBlock = ^(id sender)
-//    {
-//        [self buttonClick:sender];
-//        
-//    };
+    dailyView = [[SLDailyView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 64)];
     dailyView.collectionView.delegate = self;
     dailyView.collectionView.dataSource = self;
-    
+    dailyView.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    dailyView.collectionView.autoresizesSubviews = NO;
     [self.view addSubview:dailyView];
     
     // 注册复用的Cell
@@ -105,6 +95,11 @@ typedef enum {
     // 注册复用的CHT组头（段头）
     [dailyView.collectionView registerClass:[SLCHTHeaderView class] forSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader withReuseIdentifier:kCollectionHearderReuseID];
 
+    refreshHeaderView = [[MJRefreshHeaderView alloc] initWithScrollView:dailyView.collectionView];
+    refreshHeaderView.delegate = self;
+    refreshFooterView = [[MJRefreshFooterView alloc] initWithScrollView:dailyView.collectionView];
+    refreshFooterView.delegate = self;
+    
 }
 
 #pragma mark - ================= 各点击事件的判断触发
@@ -119,10 +114,8 @@ typedef enum {
     NSString *album_id = [target componentsSeparatedByString:@"/"][2];
     
     SLDailyHeaderController *dailyVC = [[SLDailyHeaderController alloc] init];
-    
     dailyVC.album_id = album_id;
     dailyVC.titleStr = titleStr;
-    //NSLog(@"%@",album_id);
     dailyVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:dailyVC animated:YES];
 }
@@ -130,9 +123,6 @@ typedef enum {
 - (void)buttonClick:(UIView *)sender
 {
     // 利用反射获取类型名字进行判断
-    if ([[NSString stringWithFormat:@"%s",object_getClassName(sender)] isEqualToString:@"UITapGestureRecognizer"]) {
-        
-    }
     switch (sender.tag) {
         case 100:
         {
@@ -140,15 +130,9 @@ typedef enum {
            [self.navigationController pushViewController:[UIViewController alloc] animated:YES];
         }
             break;
-        case 101:
-        {
-            
-        }
-            break;
         default:
             break;
     }
-    
 }
 
 #pragma mark - ================= 触发请求方法
@@ -194,9 +178,7 @@ typedef enum {
 #pragma mark -主视图瀑布流请求数据
 -(void)mainViewRequest
 {
-    [AFRequestTools afGetRequestWithURL:[NSString stringWithFormat:kMainView_Url,1] withParameters:nil withSuccessBlock:^(id responseObject) {
-        //NSLog(@"%@",[NSString stringWithFormat:kMainView_Url,1]);
-        
+    [AFRequestTools afGetRequestWithURL:[NSString stringWithFormat:kMainView_Url,page] withParameters:nil withSuccessBlock:^(id responseObject) {
         if ([[responseObject[@"status"] stringValue] isEqualToString:@"1"]) {
             // SuccessBlock
             NSDictionary *object_list = [[responseObject valueForKey:@"data"] valueForKey:@"object_list"];
@@ -210,28 +192,52 @@ typedef enum {
             }
             //刷新-collectionView
             [dailyView.collectionView reloadData];
+            
+            //判断是否正在刷新
+            if ([refreshHeaderView isRefreshing])
+            {
+                //停止刷新
+                [refreshHeaderView endRefreshing];
+                //NSLog(@"停止刷新");
+            }
+            if ([refreshFooterView isRefreshing])
+            {
+                [refreshFooterView endRefreshing];
+                //NSLog(@"停止加载更多");
+            }
         }
     } andFailBlock:^(id responseObject) {
-        // FailBlock
         ;
     }];
 }
 
-
 #pragma mark - ================= 各协议事件的判断触发
+#pragma mark -MJRefreshBaseViewDelegate
+- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+{
+    if (refreshView == refreshHeaderView)
+    {
+        if (mainViewModels.count > 0)
+        {
+            [mainViewModels removeAllObjects];
+        }
+        page = 1;
+        [self mainViewRequest];
+    }
+    else //加载更多
+    {
+        //NSLog(@"加载更多");
+        page++;
+        [self mainViewRequest];
+    }
+}
 
 #pragma mark - UICollectionViewDataSource
-
-// 分组数
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
 
 // 在某个分组下的Item数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    //mainViewModels.count
+    NSLog(@"%ld",mainViewModels.count);
     return mainViewModels.count;
 }
 
@@ -240,12 +246,10 @@ typedef enum {
 {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
 
-    UIImageView *imageView = [[UIImageView alloc] init];
-    
-    imageView.frame = CGRectMake(0, 0, CGRectGetWidth(cell.frame), CGRectGetHeight(cell.frame));
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(cell.frame), CGRectGetHeight(cell.frame))];
+    //imageView.frame = CGRectMake(0, 0, CGRectGetWidth(cell.frame), CGRectGetHeight(cell.frame));
     
     if ([mainViewModels count]) {
-        NSLog(@"%ld",indexPath.row);
         SLMainViewModel *model = mainViewModels[indexPath.row];
         
         NSString *str = [model.photoModel valueForKey:@"path"];
@@ -258,17 +262,6 @@ typedef enum {
         {
             [imageView sd_setImageWithURL:[NSURL URLWithString:[model.photoModel valueForKey:@"path"]]];
         }
-
-//        if ([model.photoModel valueForKey:@"path"]) {
-//            NSLog(@"=====%@",[model.photoModel valueForKey:@"path"]);
-//        }
-        
-//        [UIImage imageWithWebP:[model.photoModel valueForKey:@"path"] completionBlock:^(UIImage *result) {
-//            NSLog(@"result:%@",result);
-//            imageView.image = result;
-//        } failureBlock:^(NSError *error) {
-//             //NSLog(@"error:%@",error);
-//        }];
         
         cell.backgroundView = imageView;
     }
@@ -277,9 +270,6 @@ typedef enum {
     
     return cell;
 }
-
-
-
 
 // 定制组 头/尾
 -(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -303,14 +293,28 @@ typedef enum {
 //item 的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(100, arc4random() % 100 + 50);
+    if ([mainViewModels count]) {
+        SLMainViewModel *model = mainViewModels[indexPath.row];
+        
+        NSInteger height = [[model.photoModel valueForKey:@"height"] integerValue];
+        NSInteger width = [[model.photoModel valueForKey:@"width"] integerValue];
+        
+        return CGSizeMake(width/100.0f, height/100.0f);
+    }else
+    {
+        return CGSizeMake(100, arc4random() % 200 + 100);
+    }
 }
 
 // 点击Item
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    NSLog(@"%ld",indexPath.row);
+    SLDetailViewController *detailVC = [[SLDetailViewController alloc] init];
+    detailVC.hidesBottomBarWhenPushed = YES;
+
+    detailVC.model = mainViewModels[indexPath.row];
+    
+    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 //表头
@@ -318,7 +322,5 @@ typedef enum {
 {
     return 200.0f;
 }
-
 #pragma mark - ================= (第三方功能区)
-
 @end

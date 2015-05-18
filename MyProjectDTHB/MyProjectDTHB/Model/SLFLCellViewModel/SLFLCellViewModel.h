@@ -26,10 +26,10 @@
 @property(nonatomic, copy)NSString *is_show_price; //0
 
 #warning 重定义属性 id--idType
-@property(nonatomic, copy)NSString *idType;   //50ab399dcdc93556f55f6486,
+//@property(nonatomic, copy)NSString *idType;   //50ab399dcdc93556f55f6486,
 
 #warning 字典
-@property(nonatomic)NSMutableArray *mall_category;
+@property(nonatomic, strong)NSDictionary *mall_category;
 //mall_category: {
 //    id;   //51affb20b9c280b2374505fe,
 //    is_show_price: 1,

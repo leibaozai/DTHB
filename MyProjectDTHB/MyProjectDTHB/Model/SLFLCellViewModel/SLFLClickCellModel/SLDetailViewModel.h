@@ -7,16 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "SLParentsModel.h"
+#import "SLAlbumModel.h"
+#import "SLPhotoModel.h"
+#import "SLItemModel.h"
+#import "SLSenderModel.h"
 /**
  最底层详细请求-所有的详情页请求-Model
  */
 @interface SLDetailViewModel :NSObject
 
-@property(nonatomic)NSMutableArray *album;
-@property(nonatomic)NSMutableArray *photo;
-@property(nonatomic)NSMutableArray *item;
-@property(nonatomic)NSMutableArray *sender;
+@property(nonatomic,strong) SLAlbumModel *album;
+@property(nonatomic,strong) SLPhotoModel *photo;
+@property(nonatomic,strong) SLItemModel *item;
+@property(nonatomic,strong) SLSenderModel *sender;
 
 @property(nonatomic, copy)NSString *msg;   //樱桃小丸子新发型手机壳iPhone4S55s苹果手机壳糖果色软壳,
 @property(nonatomic, copy)NSString *id;   //363333616,

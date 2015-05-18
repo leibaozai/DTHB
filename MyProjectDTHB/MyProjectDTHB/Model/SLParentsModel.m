@@ -35,7 +35,7 @@
 {
     // OC的反射,是用的方法是object_getClassName，从类获取类名
     if (key) {
-        NSLog(@"%@没有这个%@属性", [NSString stringWithFormat:@"%s",object_getClassName(self)],key);
+        //NSLog(@"%@没有这个%@属性", [NSString stringWithFormat:@"%s",object_getClassName(self)],key);
     }
     else
     {

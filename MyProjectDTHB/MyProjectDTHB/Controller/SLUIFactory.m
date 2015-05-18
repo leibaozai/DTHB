@@ -8,8 +8,33 @@
 
 #import "SLUIFactory.h"
 #import "SLGlobalDefine.h"
+#import "MBProgressHUD.h"
 
 @implementation SLUIFactory
+
+/*
+ 显示网络加载提示
+ */
++ (void)showMBProgessHUD:(UIView *)superView amimated:(BOOL)amimated
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:superView animated:amimated];
+    hud.labelText = @"正在加载...";
+}
+/*
+ 隐藏网络加载提示
+ */
++ (void)hideMBProgessHUD:(UIView *)superView amimated:(BOOL)amimated
+{
+    [MBProgressHUD hideAllHUDsForView:superView animated:amimated
+     ];
+}
+
++ (void)showAlertViewWithMessage:(NSString *)message
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:message delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil, nil];
+    [alert show];
+}
+
 
 //创建调整位置的BBI
 + (UIBarButtonItem *)createSpaceBBIWithWidth:(CGFloat)width

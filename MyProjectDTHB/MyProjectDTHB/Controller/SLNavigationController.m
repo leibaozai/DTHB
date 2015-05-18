@@ -19,6 +19,9 @@
     
     self.interactivePopGestureRecognizer.delegate = self;
     self.interactivePopGestureRecognizer.enabled = YES;
+    
+    self.navigationController.hidesBottomBarWhenPushed = YES;
+    self.navigationBar.translucent = NO;
 }
 
 #pragma mark - UIGestureRecognizerDelegate

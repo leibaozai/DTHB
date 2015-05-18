@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-
+//#import "SLAlbumModel.h"
+//#import "SLPhotoModel.h"
+//#import "SLSenderModel.h"
+//#import "SLItemModel.h"
 /**
  父类Model
  */
